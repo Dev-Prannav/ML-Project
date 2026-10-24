@@ -1,28 +1,9 @@
-# Elektrik Kaçağı Tespiti | Electricity Theft Detection
-
-[Türkçe](#türkçe) | [English](#english)
-
----
-
-## Türkçe
-
-Elektrik dağıtım şirketleri kaçak kullanımı bulmak için sahaya denetim ekipleri gönderir, ancak hangi adrese gidileceği çoğu zaman rastgele ya da tecrübeye dayalı seçilir. Bu projede abonelerin günlük tüketim verisinden her abone için bir **risk skoru** üreten bir model geliştirdim. Amaç, denetim ekiplerini kaçak olma ihtimali en yüksek adreslere yönlendirmek.
-
-### Veri
-
 [SGCC (State Grid Corporation of China)](https://www.kaggle.com/datasets/bensalem14/sgcc-dataset) veri seti: 42.372 abonenin Ocak 2014 ile Ekim 2016 arasındaki günlük elektrik tüketimi. Abonelerin %8.5'i kaçak olarak etiketli, yani veri oldukça dengesiz. Veride çok sayıda okunamayan gün ve sayaç hatası var.
 
 ![Örnek abone profilleri](images/04_sample_customers.png)
 
 Alt sol grafikteki kaçak abone tipik bir örnek: tüketimi bir gün aniden 280 kWh seviyesinden 25 kWh seviyesine düşüyor ve öyle kalıyor.
 
-### Yaklaşım
-
-- Eksik günleri her abonenin kendi zaman serisi içinde lineer interpolasyonla doldurdum. Sayaç hatası olan uç değerleri abone bazında sınırladım.
-- Günlük tüketimin yanına yorumlanabilir özellikler ekledim: okunamayan gün oranı, tüketimdeki dalgalanma, trend, aylık ortalamalar, ani düşüş sayısı.
-- Dengesiz veri için SMOTE ile XGBoost'un `scale_pos_weight` parametresini karşılaştırdım. `scale_pos_weight` her denemede daha iyi sonuç verdi.
-- Model seçimini ve karar eşiğini ayrı bir validation setinde yaptım. Test setini yalnızca en sonda bir kez kullandım.
-- Modelin kararlarını SHAP ile açıkladım.
 
 ### Sonuçlar
 
